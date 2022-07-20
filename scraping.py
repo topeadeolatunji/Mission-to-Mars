@@ -23,6 +23,18 @@ def scrape_all():
         "last_modified": dt.datetime.now()
     }
 
+def hemisphere():
+    hemisphere = [
+        {'img_url': 'https://marshemispheres.com/images/full.jpg',
+        'title': 'Cerberus Hemisphere Enhanced'},
+        {'img_url': 'https://marshemispheres.com/images/schiaparelli_enhanced-full.jpg',
+        'title': 'Schiaparelli Hemisphere Enhanced'},
+        {'img_url': 'https://marshemispheres.com/images/syrtis_major_enhanced-full.jpg',
+        'title': 'Syrtis Major Hemisphere Enhanced'},
+        {'img_url': 'https://marshemispheres.com/images/valles_marineris_enhanced-full.jpg',
+        'title': 'Valles Marineris Hemisphere Enhanced'}
+    ]
+    return hemisphere
     # Stop webdriver and return data
     browser.quit()
     return data
@@ -87,6 +99,19 @@ def mars_facts():
     try:
         # Use 'read_html' to scrape the facts table into a dataframe
         df = pd.read_html('https://data-class-mars-facts.s3.amazonaws.com/Mars_Facts/index.html')[0]
+
+def hemisphere():
+    hemisphere = [
+        {'img_url': 'https://marshemispheres.com/images/full.jpg',
+        'title': 'Cerberus Hemisphere Enhanced'},
+        {'img_url': 'https://marshemispheres.com/images/schiaparelli_enhanced-full.jpg',
+        'title': 'Schiaparelli Hemisphere Enhanced'},
+        {'img_url': 'https://marshemispheres.com/images/syrtis_major_enhanced-full.jpg',
+        'title': 'Syrtis Major Hemisphere Enhanced'},
+        {'img_url': 'https://marshemispheres.com/images/valles_marineris_enhanced-full.jpg',
+        'title': 'Valles Marineris Hemisphere Enhanced'}
+    ]
+        return hemisphere
 
     except BaseException:
         return None
