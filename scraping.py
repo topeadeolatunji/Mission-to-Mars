@@ -7,6 +7,35 @@ import datetime as dt
 from webdriver_manager.chrome import ChromeDriverManager
 
 
+def hemispheres(browser):
+    # 1. Use browser to visit the URL 
+    url = 'https://marshemispheres.com/'
+    browser.visit(url)
+
+    # Optional delay for loading the page
+    browser.is_element_present_by_css('div.list_text', wait_time=1)
+
+    # 2. Create a list to hold the images and titles.
+    hemisphere_image_urls= []
+
+    # 3. Write code to retrieve the image urls and titles for each hemisphere.
+    # 1 - 4 Loop for images and titles
+    for i in range(1,5):
+        hemis= {}
+        x_path= '//*[@id="product-section"]/div[2]/div['+str(i)+']/div/a/h3'
+
+        browser.find_by_xpath(x_path).click()
+        url= browser.find_by_xpath('//*[@id="wide-image"]/div/ul/li[1]/a')['href']
+        title= browser.find_by_xpath('//*[@id="results"]/div[1]/div/div[3]/h2').text
+        hemis['img_url']= url
+        hemis['title']= title
+        hemisphere_image_urls.append(hemis)
+        browser.back()
+        
+    print(hemisphere_image_urls)
+    return hemisphere_image_urls
+
+
 def scrape_all():
     # Initiate headless driver for deployment
     executable_path = {'executable_path': ChromeDriverManager().install()}
@@ -20,29 +49,11 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
-        "last_modified": dt.datetime.now()
+        "last_modified": dt.datetime.now(),
+        "hemisphere":hemispheres(browser)
     }
 
-def hemisphere():
-    hemisphere_image_urls = {
-        url = 'https://marshemispheres.com/'
-        browser.visit(url),
-        browser.is_element_present_by_css('div.list_text', wait_time=1),
-        hemisphere_image_urls= [],
-        for i in range(1,5):
-            hemis= {}
-            x_path= '//*[@id="product-section"]/div[2]/div['+str(i)+']/div/a/h3'
 
-            browser.find_by_xpath(x_path).click()
-            url= browser.find_by_xpath('//*[@id="wide-image"]/div/ul/li[1]/a')['href']
-            title= browser.find_by_xpath('//*[@id="results"]/div[1]/div/div[3]/h2').text
-            hemis['img_url']= url
-            hemis['title']= title
-            hemisphere_image_urls.append(hemis)
-            browser.back()
-        
-    }
-    return hemisphere_image_urls
     # Stop webdriver and return data
     browser.quit()
     return data
@@ -108,27 +119,6 @@ def mars_facts():
         # Use 'read_html' to scrape the facts table into a dataframe
         df = pd.read_html('https://data-class-mars-facts.s3.amazonaws.com/Mars_Facts/index.html')[0]
 
-def hemisphere():
-    hemisphere_image_urls = {
-        url = 'https://marshemispheres.com/'
-        browser.visit(url),
-        browser.is_element_present_by_css('div.list_text', wait_time=1),
-        hemisphere_image_urls= [],
-        for i in range(1,5):
-            hemis= {}
-            x_path= '//*[@id="product-section"]/div[2]/div['+str(i)+']/div/a/h3'
-
-            browser.find_by_xpath(x_path).click()
-            url= browser.find_by_xpath('//*[@id="wide-image"]/div/ul/li[1]/a')['href']
-            title= browser.find_by_xpath('//*[@id="results"]/div[1]/div/div[3]/h2').text
-            hemis['img_url']= url
-            hemis['title']= title
-            hemisphere_image_urls.append(hemis)
-            browser.back()
-        
-    }
-    return hemisphere_image_urls
-
     except BaseException:
         return None
 
@@ -142,4 +132,4 @@ def hemisphere():
 if __name__ == "__main__":
 
     # If running as script, print scraped data
-    print(scrape_all())
+    scrape_all()
