@@ -24,17 +24,25 @@ def scrape_all():
     }
 
 def hemisphere():
-    hemisphere = [
-        {'img_url': 'https://marshemispheres.com/images/full.jpg',
-        'title': 'Cerberus Hemisphere Enhanced'},
-        {'img_url': 'https://marshemispheres.com/images/schiaparelli_enhanced-full.jpg',
-        'title': 'Schiaparelli Hemisphere Enhanced'},
-        {'img_url': 'https://marshemispheres.com/images/syrtis_major_enhanced-full.jpg',
-        'title': 'Syrtis Major Hemisphere Enhanced'},
-        {'img_url': 'https://marshemispheres.com/images/valles_marineris_enhanced-full.jpg',
-        'title': 'Valles Marineris Hemisphere Enhanced'}
-    ]
-    return hemisphere
+    hemisphere_image_urls = {
+        url = 'https://marshemispheres.com/'
+        browser.visit(url),
+        browser.is_element_present_by_css('div.list_text', wait_time=1),
+        hemisphere_image_urls= [],
+        for i in range(1,5):
+            hemis= {}
+            x_path= '//*[@id="product-section"]/div[2]/div['+str(i)+']/div/a/h3'
+
+            browser.find_by_xpath(x_path).click()
+            url= browser.find_by_xpath('//*[@id="wide-image"]/div/ul/li[1]/a')['href']
+            title= browser.find_by_xpath('//*[@id="results"]/div[1]/div/div[3]/h2').text
+            hemis['img_url']= url
+            hemis['title']= title
+            hemisphere_image_urls.append(hemis)
+            browser.back()
+        
+    }
+    return hemisphere_image_urls
     # Stop webdriver and return data
     browser.quit()
     return data
@@ -101,17 +109,25 @@ def mars_facts():
         df = pd.read_html('https://data-class-mars-facts.s3.amazonaws.com/Mars_Facts/index.html')[0]
 
 def hemisphere():
-    hemisphere = [
-        {'img_url': 'https://marshemispheres.com/images/full.jpg',
-        'title': 'Cerberus Hemisphere Enhanced'},
-        {'img_url': 'https://marshemispheres.com/images/schiaparelli_enhanced-full.jpg',
-        'title': 'Schiaparelli Hemisphere Enhanced'},
-        {'img_url': 'https://marshemispheres.com/images/syrtis_major_enhanced-full.jpg',
-        'title': 'Syrtis Major Hemisphere Enhanced'},
-        {'img_url': 'https://marshemispheres.com/images/valles_marineris_enhanced-full.jpg',
-        'title': 'Valles Marineris Hemisphere Enhanced'}
-    ]
-        return hemisphere
+    hemisphere_image_urls = {
+        url = 'https://marshemispheres.com/'
+        browser.visit(url),
+        browser.is_element_present_by_css('div.list_text', wait_time=1),
+        hemisphere_image_urls= [],
+        for i in range(1,5):
+            hemis= {}
+            x_path= '//*[@id="product-section"]/div[2]/div['+str(i)+']/div/a/h3'
+
+            browser.find_by_xpath(x_path).click()
+            url= browser.find_by_xpath('//*[@id="wide-image"]/div/ul/li[1]/a')['href']
+            title= browser.find_by_xpath('//*[@id="results"]/div[1]/div/div[3]/h2').text
+            hemis['img_url']= url
+            hemis['title']= title
+            hemisphere_image_urls.append(hemis)
+            browser.back()
+        
+    }
+    return hemisphere_image_urls
 
     except BaseException:
         return None
